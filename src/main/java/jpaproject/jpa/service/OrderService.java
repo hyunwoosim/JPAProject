@@ -1,5 +1,6 @@
 package jpaproject.jpa.service;
 
+import java.util.List;
 import jpaproject.jpa.domain.Delivery;
 import jpaproject.jpa.domain.Member;
 import jpaproject.jpa.domain.Order;
@@ -8,6 +9,7 @@ import jpaproject.jpa.domain.item.Item;
 import jpaproject.jpa.repository.ItemRepository;
 import jpaproject.jpa.repository.MemberRepository;
 import jpaproject.jpa.repository.OrderRepository;
+import jpaproject.jpa.repository.OrderSearch;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -62,4 +64,7 @@ public class OrderService {
     }
 
     // 검색
+    public List<Order> findOrders(OrderSearch orderSearch) {
+        return orderRepository.findAllByString(orderSearch);
+    }
 }

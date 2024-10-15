@@ -1,6 +1,7 @@
 package jpaproject.jpa.Controller;
 
 import jakarta.validation.Valid;
+import java.util.List;
 import jpaproject.jpa.domain.Address;
 import jpaproject.jpa.domain.Member;
 import jpaproject.jpa.service.MemberService;
@@ -39,4 +40,12 @@ public class MemberController {
         memberService.join(member);
         return "redirect:/";
     }
+
+    @GetMapping("/members")
+    public String list(Model model) {
+        List<Member> members = memberService.findMembers();
+        model.addAttribute("members", members);
+        return "members/memberList";
+    }
+
 }
