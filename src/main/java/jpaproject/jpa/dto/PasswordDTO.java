@@ -14,5 +14,5 @@ public class PasswordDTO {
         message = "최소 하나의 숫자,소문자,대문자,특수문를 포함해야하며 공백이 없어야합니다.")
     private String password;
 
-    private String confirmPassword;
+    private String confirmPassword; // 비밀번호 일치 확인
 }
