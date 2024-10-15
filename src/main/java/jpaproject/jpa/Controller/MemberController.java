@@ -6,6 +6,7 @@ import jpaproject.jpa.domain.Address;
 import jpaproject.jpa.domain.Member;
 import jpaproject.jpa.service.MemberService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class MemberController {
 
     private final MemberService memberService;
+    private final BCryptPasswordEncoder passwordEncoder;
+
 
     @GetMapping("/members/new")
     public String createForm(Model model) {
@@ -31,11 +34,23 @@ public class MemberController {
             return "members/createMemberForm";
         }
 
+        // 비밀번호 일치 확인
+        if (!form.getPasswordDTO().getPassword()
+            .equals(form.getPasswordDTO().getConfirmPassword())) {
+            result.rejectValue("passwordDTO.confirmPassword", "error.passwordDTO",
+                "비밀 번호가 일치하지 않습니다.");
+            return "members/createMemberForm";
+        }
+
         Address address = new Address(form.getCity(), form.getStreet(), form.getZipcode());
 
         Member member = new Member();
         member.setName(form.getName());
         member.setAddress(address);
+
+        // 비밀 번호 암호화
+        String encode = passwordEncoder.encode(form.getPasswordDTO().getPassword());
+        member.setPassword(encode);
 
         memberService.join(member);
         return "redirect:/";
