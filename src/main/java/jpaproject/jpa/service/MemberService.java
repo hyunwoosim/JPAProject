@@ -1,11 +1,15 @@
 package jpaproject.jpa.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import jpaproject.jpa.domain.Member;
 import jpaproject.jpa.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 
 @Service
 @Transactional(readOnly = true)
@@ -40,6 +44,17 @@ public class MemberService {
     // 회원 한명 조회
     public Member findOne(Long memberId) {
         return memberRepository.findOne(memberId);
+    }
+
+    // 회원 가입 시 유효성 검사
+    public Map<String, String> validateHandling(BindingResult result) {
+        Map<String, String> validateResult = new HashMap<>();
+
+        for (FieldError error : result.getFieldErrors()) {
+            String validKeyName = String.format("valid_%s", error.getField());
+            validateResult.put(validKeyName, error.getDefaultMessage());
+        }
+        return validateResult;
     }
 
 }

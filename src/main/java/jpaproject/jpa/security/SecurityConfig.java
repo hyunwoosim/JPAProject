@@ -14,9 +14,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
+            .csrf().disable()
             .authorizeHttpRequests()
-            .requestMatchers("/", "/home", "/register").permitAll()  // 특정 경로는 인증 없이 접근 가능
-            .anyRequest().authenticated()  // 나머지 경로는 인증 필요
+            .anyRequest().permitAll()  // 특정 경로는 인증 없이 접근 가능
             .and()
             .formLogin()
             .loginPage("/login")  // 커스텀 로그인 페이지 경로 설정

@@ -2,6 +2,7 @@ package jpaproject.jpa.Controller;
 
 import jakarta.validation.Valid;
 import java.util.List;
+import java.util.Map;
 import jpaproject.jpa.domain.Address;
 import jpaproject.jpa.domain.Member;
 import jpaproject.jpa.service.MemberService;
@@ -28,11 +29,36 @@ public class MemberController {
     }
 
     @PostMapping("/members/new")
-    public String create(@Valid MemberForm form, BindingResult result) {
+    public String create(@Valid MemberForm form, BindingResult result, Model model) {
 
+        System.out.println(
+            "form.getPasswordDTO().getPassword() = " + form.getPasswordDTO().getPassword());
+        System.out.println(
+            "form.getPasswordDTO().getPassword() = " + form.getPasswordDTO().getConfirmPassword());
+        System.out.println("++++++++++++++++++++++++++++++");
+        System.out.println("result = " + result.hasErrors());
+        System.out.println("++++++++++++++++++++++++++++++");
+        System.out.println("++++++++++++++++++++++++++++++");
+        System.out.println("result = " + result);
+        System.out.println("++++++++++++++++++++++++++++++");
+
+        //에러에게 맞게 문구 나가기
         if (result.hasErrors()) {
+
+            Map<String, String> validatorResult = memberService.validateHandling(result);
+            for (String key : validatorResult.keySet()) {
+                model.addAttribute(key, validatorResult.get(key));
+                System.out.println("=====================");
+                System.out.println("key = " + key);
+                System.out.println("validatorResult = " + validatorResult.get(key));
+                System.out.println("=====================");
+            }
+
             return "members/createMemberForm";
         }
+        System.out.println("++++++++++++++++++++++++++++++");
+        System.out.println("result 에러 없음");
+        System.out.println("++++++++++++++++++++++++++++++");
 
         // 비밀번호 일치 확인
         if (!form.getPasswordDTO().getPassword()
@@ -47,6 +73,8 @@ public class MemberController {
         Member member = new Member();
         member.setName(form.getName());
         member.setAddress(address);
+        member.setEmail(form.getEmail());
+        member.setPhone(form.getPhone());
 
         // 비밀 번호 암호화
         String encode = passwordEncoder.encode(form.getPasswordDTO().getPassword());
