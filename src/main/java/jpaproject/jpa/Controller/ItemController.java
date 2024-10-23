@@ -1,6 +1,7 @@
 package jpaproject.jpa.Controller;
 
 import java.util.List;
+import jpaproject.jpa.Controller.factory.ItemFactory;
 import jpaproject.jpa.domain.item.Book;
 import jpaproject.jpa.domain.item.Item;
 import jpaproject.jpa.service.ItemService;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class ItemController {
 
     private final ItemService itemService;
+    private final ItemFactory itemFactory;
+
 
     @GetMapping("/items/new")
     public String createForm(Model model) {
@@ -25,14 +28,17 @@ public class ItemController {
     }
 
     @PostMapping("/items/new")
-    public String create(ItemForm form) {
-        ItemForm item = new ItemForm();
-        item.setName(form.getName());
-        item.setPrice(form.getPrice());
-        item.setStockQuantity(form.getStockQuantity());
-        item.setAuthor(form.getAuthor());
-        item.setIsbn(form.getIsbn());
- 
+    public String create(@ModelAttribute ItemForm form) {
+        System.out.println("=====================");
+        System.out.println(form.getCategory());
+        System.out.println("=====================");
+
+        Item item = itemFactory.createItem(form);
+
+        System.out.println("=====================");
+        System.out.println("item = " + item);
+        System.out.println("=====================");
+
         itemService.saveItem(item);
         return "redirect:/items";
     }

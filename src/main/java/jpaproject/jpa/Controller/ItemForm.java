@@ -12,6 +12,8 @@ public class ItemForm {
     private String name;
     private int price;
     private int stockQuantity;
+    private String category; // book, album, movie
+
 
     // book
     private String author;

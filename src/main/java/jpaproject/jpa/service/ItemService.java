@@ -18,6 +18,9 @@ public class ItemService {
     @Transactional
     public void saveItem(Item item) {
         itemRepository.save(item);
+        System.out.println("=====================");
+        System.out.println("서비스 부분 :아이템 저장성공");
+        System.out.println("=====================");
     }
 
     public List<Item> findItems() {

@@ -139,3 +139,11 @@ validatorResult = 비밀번호 확인은 필수입니다.
 key = valid_passwordDTO.password
 validatorResult = 비밀번호는 필수입니다.
 ```
+
+# 10.23
+
+## 상품 등록 부분 변경
+
+1. 책,앨범,영화 3가지의 상품을 등록할 수 있게 변경하였다.
+2. ItemFactory를 사용하여 Category를 선택하면 선택한 카테리고에 맞게 상품을 등록할 수 있게 수정하였다.
+    - createItemForm, ItemFactory, ItemController, ItemForm을 확인하면된다.

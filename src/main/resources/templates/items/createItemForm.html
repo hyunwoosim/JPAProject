@@ -7,6 +7,8 @@
   <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
   <form method="post" th:action="@{/items/new}" th:object="${form}">
+
+    <!-- 공통 사용 -->
     <div class="form-group">
       <label th:for="name">상품명</label>
       <input class="form-control" placeholder="이름을 입력하세요" th:field="*{name}"
@@ -21,20 +23,81 @@
       <label th:for="stockQuantity">수량</label>
       <input class="form-control" placeholder="수량을 입력하세요" th:field="*{stockQuantity}" type="number">
     </div>
-    <div class="form-group">
+
+    <!-- 카테고리 선택 -->
+    <div calss="form-group">
+      <label th:for="category">카테고리</label>
+      <select class="form-control" id="category" onchange="showCategoryField()"
+              th:field="*{category}">
+        <option hidden="" value="">===카테고리를 선택하십시오===</option>
+        <option value="book">책</option>
+        <option value="album">앨범</option>
+        <option value="movie">영화</option>
+      </select>
+    </div>
+
+    <!-- 카테고리에 따른 변환 -->
+    <!--  책  -->
+    <div class="form-group" id="bookFields" style="display:none;">
       <label th:for="author">저자</label>
-      <input class="form-control" placeholder="저자를 입력하세요" th:field="*{author}"
-             type="text">
-    </div>
-    <div class="form-group">
+      <input class="form-control" placeholder="저자를 입력하세요" th:field="*{author}" type="text">
       <label th:for="isbn">ISBN</label>
-      <input class="form-control" placeholder="ISBN을 입력하세요" th:field="*{isbn}"
-             type="text">
+      <input class="form-control" placeholder="ISBN을 입력하세요" th:field="*{isbn}" type="text">
     </div>
+
+    <!--  앨범  -->
+    <div class="form-group" id="albumFields" style="display:none;">
+      <label th:for="artist">아티스트</label>
+      <input class="form-control" placeholder="아티스트를 입력하세요" th:field="*{artist}" type="text">
+      <label th:for="etc">기타 정보</label>
+      <input class="form-control" placeholder="기타 정보를 입력하세요" th:field="*{etc}" type="text">
+    </div>
+
+    <!--  영화  -->
+    <div class="form-group" id="movieFields" style="display:none;">
+      <label th:for="director">감독</label>
+      <input class="form-control" placeholder="감독을 입력하세요" th:field="*{director}" type="text">
+      <label th:for="actor">배우</label>
+      <input class="form-control" placeholder="배우를 입력하세요" th:field="*{actor}" type="text">
+    </div>
+
     <button class="btn btn-primary" type="submit">Submit</button>
   </form>
   <br/>
   <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
+
+
+<!-- 자바 스크립트 -->
+<script type="text/javascript">
+  function showCategoryField() {
+    var category = document.getElementById("category").value;
+
+
+
+    <!-- 모든 필드 숨기기 -->
+    document.getElementById("bookFields").style.display = "none";
+    document.getElementById("albumFields").style.display = "none";
+    document.getElementById("movieFields").style.display = "none";
+
+    <!--  선택된 카테고리 보여주기-->
+
+    if (category == "book") {
+      document.getElementById("bookFields").style.display = "block";
+    } else if (category == "album") {
+      document.getElementById("albumFields").style.display = "block";
+    } else if (category == "movie") {
+      document.getElementById("movieFields").style.display = "block";
+    }
+  }
+
+  // 페이지 로드 시 선택된 카테고리에 따라 필드 표시
+  document.addEventListener("DOMContentLoaded", function() {
+    showCategoryField();
+  });
+
+</script>
+
+
 </body>
 </html>
