@@ -8,11 +8,24 @@
     <table class="table table-striped">
       <thead>
       <tr>
-        <th>#</th>
+        <th>번호</th>
         <th>상품명</th>
         <th>가격</th>
         <th>재고수량</th>
-        <th></th>
+        <th>타입</th>
+
+        <!-- 타입 book     -->
+        <th th:if="${items[0].dtype == 'Book'}">저자</th>
+        <th th:if="${items[0].dtype == 'Book'}">ISBN</th>
+
+        <!-- 타입 앨범     -->
+        <th th:if="${items[0].dtype == 'Album'}">아티스트</th>
+        <th th:if="${items[0].dtype == 'Album'}">기타 사항</th>
+
+        <!--타입 영화      -->
+        <th th:if="${items[0].dtype == 'Movie'}">감독</th>
+        <th th:if="${items[0].dtype == 'Movie'}">배우</th>
+
       </tr>
       </thead>
       <tbody>
@@ -21,6 +34,20 @@
         <td th:text="${item.name}"></td>
         <td th:text="${item.price}"></td>
         <td th:text="${item.stockQuantity}"></td>
+        <td th:text="${item.dtype}"></td>
+
+        <!-- 타입 book     -->
+        <td th:if="${item.dtype == 'Book'}" th:text="${item.author}"></td>
+        <td th:if="${item.dtype == 'Book'}" th:text="${item.isbn}"></td>
+
+        <!-- 타입 앨범     -->
+        <td th:if="${item.dtype == 'Album'}" th:text="${item.artist}"></td>
+        <td th:if="${item.dtype == 'Album'}" th:text="${item.etc}"></td>
+
+        <!--타입 영화      -->
+        <td th:if="${item.dtype == 'Movie'}" th:text="${item.director}"></td>
+        <td th:if="${item.dtype == 'Movie'}" th:text="${item.actor}"></td>
+
         <td>
           <a class="btn btn-primary" href="#" role="button"
              th:href="@{/items/{id}/edit (id=${item.id})}">수정</a>

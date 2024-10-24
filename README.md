@@ -147,3 +147,30 @@ validatorResult = 비밀번호는 필수입니다.
 1. 책,앨범,영화 3가지의 상품을 등록할 수 있게 변경하였다.
 2. ItemFactory를 사용하여 Category를 선택하면 선택한 카테리고에 맞게 상품을 등록할 수 있게 수정하였다.
     - createItemForm, ItemFactory, ItemController, ItemForm을 확인하면된다.
+
+# 10.24
+
+## 상품 전체 리스트 조회
+
+1. dtype에 따라 카테고리를 조회할 수 있는 로직을 만들려고 하는중 dtype으로 구분하는 것 부터 시작했는데 dtype이 findAll()에서
+   타임 리프에 적용이 안됨
+2. Item 엔티티에 getDtype()로직을 추가하여 해결하였다.
+
+- Item 엔티티
+
+```
+  // Dtype을 조회하는 로직
+    public String getDtype() {
+     return this.getClass().getSimpleName();
+    }
+```
+
+- itemList.html
+
+```
+<td th:text="${item.dtype}"></td>
+```
+
+- item.dtype()를 넣으면 조회가 안되었다 이유는
+  -item.dtype()로 접근할 수 없는 이유는 dtype이 메서드가 아니라 속성으로 처리되기 때문입니다. Thymeleaf에서 메서드를 호출할 때는 괄호를 사용하지 않아야
+  하며, 속성에 접근할 때는 getter 메서드를 자동으로 호출하게 됩니다.

@@ -24,6 +24,9 @@ public class ItemService {
     }
 
     public List<Item> findItems() {
+        System.out.println("=====================");
+        System.out.println("itemRepository.findAll() = " + itemRepository.findAll());
+        System.out.println("=====================");
         return itemRepository.findAll();
     }
 

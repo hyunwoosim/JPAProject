@@ -34,6 +34,11 @@ public abstract class Item {
 
     // == 비즈니스 로직 ==//
 
+    // Dtype을 조회하는 로직
+    public String getDtype() {
+        return this.getClass().getSimpleName();
+    }
+
     // 재고 증가
     public void addStock(int quantity) {
         this.stockQuantity += quantity;
