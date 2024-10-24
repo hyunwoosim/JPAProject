@@ -2,7 +2,6 @@ package jpaproject.jpa.Controller;
 
 import java.util.List;
 import jpaproject.jpa.Controller.factory.ItemFactory;
-import jpaproject.jpa.domain.item.Book;
 import jpaproject.jpa.domain.item.Item;
 import jpaproject.jpa.service.ItemService;
 import lombok.RequiredArgsConstructor;
@@ -57,17 +56,19 @@ public class ItemController {
 
     @GetMapping("items/{itemId}/edit")
     public String updateItemForm(@PathVariable("itemId") Long itemId, Model model) {
-        Book item = (Book) itemService.findOne(itemId);
+        Item item = itemService.findOne(itemId);
+        System.out.println("======================");
+        System.out.println(item.getDtype());
+        System.out.println();
+        System.out.println("======================");
 
-        ItemForm form = new ItemForm();
-        form.setId(item.getId());
-        form.setName(item.getName());
-        form.setPrice(item.getPrice());
-        form.setStockQuantity(item.getStockQuantity());
-        form.setAuthor(item.getAuthor());
-        form.setIsbn(item.getIsbn());
+        ItemForm form = itemFactory.viewItem(item);
+        System.out.println("======================");
+        System.out.println("form ==" + form);
+        System.out.println("======================");
 
         model.addAttribute("form", form);
+        model.addAttribute("item", item);
         return "items/updateItemForm";
     }
 

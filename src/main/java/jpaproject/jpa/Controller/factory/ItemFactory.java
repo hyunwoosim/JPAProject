@@ -10,18 +10,19 @@ import org.springframework.stereotype.Component;
 @Component
 public class ItemFactory {
 
+    // 상품 등록
     public Item createItem(ItemForm form) {
         Item item;
 
         switch (form.getCategory()) {
             case "book":
-                item = createBook(form);
+                item = commonBook(form);
                 break;
             case "album":
-                item = createAlbum(form);
+                item = commonAlbum(form);
                 break;
             case "movie":
-                item = createMovie(form);
+                item = commonMovie(form);
                 break;
             default:
                 throw new IllegalArgumentException("Invalid category: " + form.getCategory());
@@ -29,7 +30,42 @@ public class ItemFactory {
         return item;
     }
 
-    private Item createMovie(ItemForm form) {
+    public ItemForm viewItem(Item item) {
+        ItemForm form = new ItemForm();
+
+        commonItemSetup(item, form);
+
+        switch (item.getDtype()) {
+            case "Book":
+                Book book = (Book) item;
+                form.setAuthor(book.getAuthor());
+                form.setIsbn(book.getIsbn());
+                break;
+            case "Album":
+                Album album = (Album) item;
+                form.setArtist(album.getArtist());
+                form.setEtc(album.getEtc());
+                break;
+            case "Movie":
+                Movie movie = (Movie) item;
+                form.setDirector(movie.getDirector());
+                form.setActor(movie.getActor());
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid category: " + form.getCategory());
+        }
+        return form;
+    }
+
+    private void commonItemSetup(Item item, ItemForm form) {
+        form.setId(item.getId());
+        form.setName(item.getName());
+        form.setPrice(item.getPrice());
+        form.setStockQuantity(item.getStockQuantity());
+    }
+
+
+    private Item commonMovie(ItemForm form) {
         Movie movie = new Movie();
 
         movie.setName(form.getName());
@@ -41,7 +77,7 @@ public class ItemFactory {
         return movie;
     }
 
-    private Item createAlbum(ItemForm form) {
+    private Item commonAlbum(ItemForm form) {
         Album album = new Album();
 
         album.setName(form.getName());
@@ -55,7 +91,7 @@ public class ItemFactory {
 
     }
 
-    private Item createBook(ItemForm form) {
+    private Item commonBook(ItemForm form) {
         Book book = new Book();
         book.setName(form.getName());
         book.setPrice(form.getPrice());
