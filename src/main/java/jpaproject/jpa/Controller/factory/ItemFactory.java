@@ -57,6 +57,26 @@ public class ItemFactory {
         return form;
     }
 
+    public ItemForm updateItem(Item item) {
+        ItemForm form = new ItemForm();
+
+        switch (item.getDtype()) {
+            case "Book":
+                commonBook(form);
+                break;
+            case "Album":
+                commonAlbum(form);
+                break;
+            case "Movie":
+                commonMovie(form);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid category: " + form.getCategory());
+        }
+        return form;
+    }
+
+
     private void commonItemSetup(Item item, ItemForm form) {
         form.setId(item.getId());
         form.setName(item.getName());
