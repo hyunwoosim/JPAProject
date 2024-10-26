@@ -40,42 +40,25 @@ public class ItemFactory {
                 Book book = (Book) item;
                 form.setAuthor(book.getAuthor());
                 form.setIsbn(book.getIsbn());
+                form.setCategory(item.getDtype());
                 break;
             case "Album":
                 Album album = (Album) item;
                 form.setArtist(album.getArtist());
                 form.setEtc(album.getEtc());
+                form.setCategory(item.getDtype());
                 break;
             case "Movie":
                 Movie movie = (Movie) item;
                 form.setDirector(movie.getDirector());
                 form.setActor(movie.getActor());
+                form.setCategory(item.getDtype());
                 break;
             default:
                 throw new IllegalArgumentException("Invalid category: " + form.getCategory());
         }
         return form;
     }
-
-    public ItemForm updateItem(Item item) {
-        ItemForm form = new ItemForm();
-
-        switch (item.getDtype()) {
-            case "Book":
-                commonBook(form);
-                break;
-            case "Album":
-                commonAlbum(form);
-                break;
-            case "Movie":
-                commonMovie(form);
-                break;
-            default:
-                throw new IllegalArgumentException("Invalid category: " + form.getCategory());
-        }
-        return form;
-    }
-
 
     private void commonItemSetup(Item item, ItemForm form) {
         form.setId(item.getId());

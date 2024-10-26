@@ -3,6 +3,10 @@ package jpaproject.jpa.Controller;
 import java.util.List;
 import jpaproject.jpa.Controller.factory.ItemFactory;
 import jpaproject.jpa.domain.item.Item;
+import jpaproject.jpa.dto.AlbumUpdateDto;
+import jpaproject.jpa.dto.BookUpdateDto;
+import jpaproject.jpa.dto.MovieUpdateDto;
+import jpaproject.jpa.dto.UpdateItemDto;
 import jpaproject.jpa.service.ItemService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -64,7 +68,7 @@ public class ItemController {
 
         ItemForm form = itemFactory.viewItem(item);
         System.out.println("======================");
-        System.out.println("form ==" + form);
+        System.out.println("form ==" + form.getCategory());
         System.out.println("======================");
 
         model.addAttribute("form", form);
@@ -74,10 +78,43 @@ public class ItemController {
 
     @PostMapping("items/{itemId}/edit")
     public String updateItem(@PathVariable Long itemId, @ModelAttribute("form") ItemForm form) {
-//        item = itemFactory.updateItem()
-        itemService.updateItem(itemId, form.getName(), form.getPrice(), form.getStockQuantity());
+        System.out.println("===========================");
+        System.out.println("form.getCategory() = " + form.getCategory());
+        System.out.println("===========================");
+
+        UpdateItemDto dto = convertToUpdateItemDto(form);
+
+        System.out.println("===========================");
+        System.out.println("dto.getName() = " + dto.getName());
+        System.out.println("dto.getName() = " + dto.getPrice());
+        System.out.println("dto.getName() = " + dto.getStockQuantity());
+        System.out.println("dto.getName() = " + dto.getAuthor());
+        System.out.println("dto.getName() = " + dto.getIsbn());
+
+        itemService.updateItem(itemId, dto);
         return "redirect:/items";
     }
+
+    private UpdateItemDto convertToUpdateItemDto(ItemForm form) {
+        System.out.println("===========================");
+        System.out.println("form.getCategory() = " + form.getCategory());
+        System.out.println("===========================");
+        switch (form.getCategory()) {
+            case "book":
+                return new BookUpdateDto(form.getName(), form.getPrice(), form.getStockQuantity(),
+                    form.getAuthor(), form.getIsbn());
+            case "album":
+                return new AlbumUpdateDto(form.getName(), form.getPrice(), form.getStockQuantity(),
+                    form.getArtist(), form.getEtc());
+            case "movie":
+                return new MovieUpdateDto(form.getName(), form.getPrice(), form.getStockQuantity(),
+                    form.getDirector(), form.getActor());
+            default:
+                throw new IllegalArgumentException("Invalid category: " + form.getCategory());
+        }
+
+    }
+
 
 }
 

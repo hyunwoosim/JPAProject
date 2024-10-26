@@ -1,7 +1,14 @@
 package jpaproject.jpa.service;
 
 import java.util.List;
+import jpaproject.jpa.domain.item.Album;
+import jpaproject.jpa.domain.item.Book;
 import jpaproject.jpa.domain.item.Item;
+import jpaproject.jpa.domain.item.Movie;
+import jpaproject.jpa.dto.AlbumUpdateDto;
+import jpaproject.jpa.dto.BookUpdateDto;
+import jpaproject.jpa.dto.MovieUpdateDto;
+import jpaproject.jpa.dto.UpdateItemDto;
 import jpaproject.jpa.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,8 +42,16 @@ public class ItemService {
     }
 
     @Transactional
-    public void updateItem(Long itemId) {
+    public void updateItem(Long itemId, UpdateItemDto updateDto) {
         Item findItem = itemRepository.findOne(itemId);
+
+        if (findItem instanceof Book && updateDto instanceof BookUpdateDto) {
+            ((Book) findItem).changeItem((BookUpdateDto) updateDto);
+        } else if (findItem instanceof Album && updateDto instanceof AlbumUpdateDto) {
+            ((Album) findItem).changeItem((AlbumUpdateDto) updateDto);
+        } else if (findItem instanceof Movie && updateDto instanceof MovieUpdateDto) {
+            ((Movie) findItem).changeItem((MovieUpdateDto) updateDto);
+        }
 
     }
 

@@ -11,6 +11,7 @@ import jakarta.persistence.ManyToMany;
 import java.util.ArrayList;
 import java.util.List;
 import jpaproject.jpa.domain.Category;
+import jpaproject.jpa.dto.UpdateItemDto;
 import jpaproject.jpa.excoption.NotEnoughStockException;
 import lombok.Getter;
 import lombok.Setter;
@@ -33,6 +34,14 @@ public abstract class Item {
     private int stockQuantity;
 
     // == 비즈니스 로직 ==//
+
+    // 업데이트 로직
+    public void changeItem(UpdateItemDto dto) {
+        this.name = dto.getName();
+        this.price = dto.getPrice();
+        this.stockQuantity = dto.getStockQuantity();
+    }
+
 
     // Dtype을 조회하는 로직
     public String getDtype() {
