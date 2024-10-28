@@ -174,3 +174,8 @@ validatorResult = 비밀번호는 필수입니다.
 - item.dtype()를 넣으면 조회가 안되었다 이유는
   -item.dtype()로 접근할 수 없는 이유는 dtype이 메서드가 아니라 속성으로 처리되기 때문입니다. Thymeleaf에서 메서드를 호출할 때는 괄호를 사용하지 않아야
   하며, 속성에 접근할 때는 getter 메서드를 자동으로 호출하게 됩니다.
+
+# 10.28
+
+1. @RestController
+    - @ResponseBody, @Controller과 합쳐진 에노테이션이다.

@@ -9,29 +9,40 @@ import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
-import lombok.Setter;
 
 
 @Entity
 @Getter
-@Setter
+
 public class Member {
 
+    @OneToMany(mappedBy = "member")
+    private final List<Order> orders = new ArrayList<>();
     @Id
     @GeneratedValue
     @Column(name = "member_id")
     private Long id;
-
     private String name;
     private String password;
     private String email;
     private String phone;
-
     @Embedded
     private Address address;
 
-    @OneToMany(mappedBy = "member")
-    private List<Order> orders = new ArrayList<>();
+    // == 비즈니스 로직 ==//
 
+    public void createInfo(String name, String email, String phone) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+    }
+
+    public void createAddressInfo(Address address) {
+        this.address = address;
+    }
+
+    public void createPasswordInfo(String password) {
+        this.password = password;
+    }
 
 }
