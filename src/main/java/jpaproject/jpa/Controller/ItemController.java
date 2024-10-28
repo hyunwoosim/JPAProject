@@ -3,9 +3,6 @@ package jpaproject.jpa.Controller;
 import java.util.List;
 import jpaproject.jpa.Controller.factory.ItemFactory;
 import jpaproject.jpa.domain.item.Item;
-import jpaproject.jpa.dto.AlbumUpdateDto;
-import jpaproject.jpa.dto.BookUpdateDto;
-import jpaproject.jpa.dto.MovieUpdateDto;
 import jpaproject.jpa.dto.UpdateItemDto;
 import jpaproject.jpa.service.ItemService;
 import lombok.RequiredArgsConstructor;
@@ -38,10 +35,6 @@ public class ItemController {
 
         Item item = itemFactory.createItem(form);
 
-        System.out.println("=====================");
-        System.out.println("item = " + item);
-        System.out.println("=====================");
-
         itemService.saveItem(item);
         return "redirect:/items";
     }
@@ -49,9 +42,6 @@ public class ItemController {
     @GetMapping("/items")
     public String list(Model model) {
         List<Item> items = itemService.findItems();
-        System.out.println("=====================");
-        System.out.println("items = ");
-        System.out.println("=====================");
 
         model.addAttribute("items", items);
 
@@ -61,10 +51,6 @@ public class ItemController {
     @GetMapping("items/{itemId}/edit")
     public String updateItemForm(@PathVariable("itemId") Long itemId, Model model) {
         Item item = itemService.findOne(itemId);
-        System.out.println("======================");
-        System.out.println(item.getDtype());
-        System.out.println();
-        System.out.println("======================");
 
         ItemForm form = itemFactory.viewItem(item);
         System.out.println("======================");
@@ -78,41 +64,21 @@ public class ItemController {
 
     @PostMapping("items/{itemId}/edit")
     public String updateItem(@PathVariable Long itemId, @ModelAttribute("form") ItemForm form) {
-        System.out.println("===========================");
-        System.out.println("form.getCategory() = " + form.getCategory());
-        System.out.println("===========================");
 
-        UpdateItemDto dto = convertToUpdateItemDto(form);
-
-        System.out.println("===========================");
-        System.out.println("dto.getName() = " + dto.getName());
-        System.out.println("dto.getName() = " + dto.getPrice());
-        System.out.println("dto.getName() = " + dto.getStockQuantity());
-        System.out.println("dto.getName() = " + dto.getAuthor());
-        System.out.println("dto.getName() = " + dto.getIsbn());
+        UpdateItemDto dto = new UpdateItemDto();
+        dto.setName(form.getName());
+        dto.setPrice(form.getPrice());
+        dto.setStockQuantity(form.getStockQuantity());
+        dto.setAuthor(form.getAuthor());
+        dto.setIsbn(form.getIsbn());
+        dto.setArtist(form.getArtist());
+        dto.setEtc(form.getEtc());
+        dto.setDirector(form.getDirector());
+        dto.setActor(form.getActor());
 
         itemService.updateItem(itemId, dto);
+
         return "redirect:/items";
-    }
-
-    private UpdateItemDto convertToUpdateItemDto(ItemForm form) {
-        System.out.println("===========================");
-        System.out.println("form.getCategory() = " + form.getCategory());
-        System.out.println("===========================");
-        switch (form.getCategory()) {
-            case "book":
-                return new BookUpdateDto(form.getName(), form.getPrice(), form.getStockQuantity(),
-                    form.getAuthor(), form.getIsbn());
-            case "album":
-                return new AlbumUpdateDto(form.getName(), form.getPrice(), form.getStockQuantity(),
-                    form.getArtist(), form.getEtc());
-            case "movie":
-                return new MovieUpdateDto(form.getName(), form.getPrice(), form.getStockQuantity(),
-                    form.getDirector(), form.getActor());
-            default:
-                throw new IllegalArgumentException("Invalid category: " + form.getCategory());
-        }
-
     }
 
 

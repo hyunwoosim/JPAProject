@@ -5,9 +5,6 @@ import jpaproject.jpa.domain.item.Album;
 import jpaproject.jpa.domain.item.Book;
 import jpaproject.jpa.domain.item.Item;
 import jpaproject.jpa.domain.item.Movie;
-import jpaproject.jpa.dto.AlbumUpdateDto;
-import jpaproject.jpa.dto.BookUpdateDto;
-import jpaproject.jpa.dto.MovieUpdateDto;
 import jpaproject.jpa.dto.UpdateItemDto;
 import jpaproject.jpa.repository.ItemRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,17 +39,19 @@ public class ItemService {
     }
 
     @Transactional
-    public void updateItem(Long itemId, UpdateItemDto updateDto) {
+    public void updateItem(Long itemId, UpdateItemDto dto) {
         Item findItem = itemRepository.findOne(itemId);
 
-        if (findItem instanceof Book && updateDto instanceof BookUpdateDto) {
-            ((Book) findItem).changeItem((BookUpdateDto) updateDto);
-        } else if (findItem instanceof Album && updateDto instanceof AlbumUpdateDto) {
-            ((Album) findItem).changeItem((AlbumUpdateDto) updateDto);
-        } else if (findItem instanceof Movie && updateDto instanceof MovieUpdateDto) {
-            ((Movie) findItem).changeItem((MovieUpdateDto) updateDto);
+        // 카테고리에 따라 업데이트 메서드 호출
+        if (findItem instanceof Book && dto.getAuthor() != null) {
+            dto.changeBook((Book) findItem);
+        } else if (findItem instanceof Album && dto.getArtist() != null) {
+            dto.changeAlbum((Album) findItem);
+        } else if (findItem instanceof Movie && dto.getDirector() != null) {
+            dto.changeMovie((Movie) findItem);
+        } else {
+            throw new IllegalArgumentException("Invalid item category or missing fields in DTO");
         }
-
     }
 
 }
