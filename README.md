@@ -179,3 +179,7 @@ validatorResult = 비밀번호는 필수입니다.
 
 1. @RestController
     - @ResponseBody, @Controller과 합쳐진 에노테이션이다.
+
+2. Member 엔티티가 직접 노출 되지 않게 수정중
+    - MemberCreateDto를 사용하였다.
+    - 비즈니스 로직을 추가하여 캡슐화하여 직접직인 필드 접근을 막았다.
