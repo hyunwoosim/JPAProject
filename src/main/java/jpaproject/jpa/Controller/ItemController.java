@@ -65,6 +65,13 @@ public class ItemController {
     @PostMapping("items/{itemId}/edit")
     public String updateItem(@PathVariable Long itemId, @ModelAttribute("form") ItemForm form) {
 
+        System.out.println("======================");
+        System.out.println("getCategory:" + form.getCategory());
+        System.out.println("form.getName:" + form.getName());
+        System.out.println("form.getName:" + form.getPrice());
+        System.out.println("form.getName:" + form.getStockQuantity());
+        System.out.println("======================");
+
         UpdateItemDto dto = new UpdateItemDto();
         dto.setName(form.getName());
         dto.setPrice(form.getPrice());

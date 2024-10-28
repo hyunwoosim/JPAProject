@@ -40,19 +40,19 @@ public class ItemFactory {
                 Book book = (Book) item;
                 form.setAuthor(book.getAuthor());
                 form.setIsbn(book.getIsbn());
-                form.setCategory(item.getDtype());
+                form.setCategory(book.getDtype());
                 break;
             case "Album":
                 Album album = (Album) item;
                 form.setArtist(album.getArtist());
                 form.setEtc(album.getEtc());
-                form.setCategory(item.getDtype());
+                form.setCategory(album.getDtype());
                 break;
             case "Movie":
                 Movie movie = (Movie) item;
                 form.setDirector(movie.getDirector());
                 form.setActor(movie.getActor());
-                form.setCategory(item.getDtype());
+                form.setCategory(movie.getDtype());
                 break;
             default:
                 throw new IllegalArgumentException("Invalid category: " + form.getCategory());

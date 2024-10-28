@@ -8,6 +8,7 @@
 
   <form method="post" th:object="${form}">
     <input th:field="*{id}" type="hidden"/>
+    <input th:field="*{category}" type="hidden">
     <div class="form-group">
       <label th:for="name">상품명</label>
       <input class="form-control" placeholder="이름을 입력하세요" th:field="*{name}"
