@@ -3,9 +3,11 @@ package jpaproject.jpa.Controller;
 import jakarta.validation.Valid;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 import jpaproject.jpa.domain.Address;
 import jpaproject.jpa.domain.Member;
 import jpaproject.jpa.dto.MemberCreateDto;
+import jpaproject.jpa.dto.MemberViewDto;
 import jpaproject.jpa.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
@@ -70,9 +73,32 @@ public class MemberController {
 
     @GetMapping("/members")
     public String list(Model model) {
-        List<Member> members = memberService.findMembers();
-        model.addAttribute("members", members);
+        List<Member> findMembers = memberService.findMembers();
+
+        List<MemberViewDto> memberViewDto = findMembers.stream()
+            .map(m -> new MemberViewDto(
+                m.getId(),
+                m.getName(),
+                m.getEmail(),
+                m.getPhone(),
+                m.getAddress()))
+            .collect(Collectors.toList());
+
+        model.addAttribute("members", memberViewDto);
         return "members/memberList";
     }
 
+    @GetMapping("/members/{id}/edit")
+    public String updateMember(@PathVariable("id") Long id, Model model,
+        MemberViewDto memberViewDto) {
+        Member findMember = memberService.findOne(id);
+
+        memberViewDto.setName(findMember.getName());
+        memberViewDto.setEmail(findMember.getEmail());
+        memberViewDto.setPhone(findMember.getPhone());
+        memberViewDto.setAddress(findMember.getAddress());
+        model.addAttribute("memberView", memberViewDto);
+
+        return "/members/updateMemberForm";
+    }
 }
