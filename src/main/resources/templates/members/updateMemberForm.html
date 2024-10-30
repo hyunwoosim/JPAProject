@@ -10,7 +10,7 @@
 <div class="container">
   <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
-  <form action="/members/new" method="post" role="form"
+  <form action="/members/{id}/edit" method="post" role="form"
         th:object="${memberView}">
 
     <div class="form-group">

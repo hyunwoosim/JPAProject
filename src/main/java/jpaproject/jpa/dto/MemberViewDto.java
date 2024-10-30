@@ -1,6 +1,7 @@
 package jpaproject.jpa.dto;
 
 import jpaproject.jpa.domain.Address;
+import jpaproject.jpa.domain.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -15,4 +16,9 @@ public class MemberViewDto {
     private String email;
     private String phone;
     private Address address;
+
+    public void updateMember(Member member) {
+       mem
+
+    }
 }

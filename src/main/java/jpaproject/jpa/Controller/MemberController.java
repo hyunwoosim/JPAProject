@@ -89,7 +89,7 @@ public class MemberController {
     }
 
     @GetMapping("/members/{id}/edit")
-    public String updateMember(@PathVariable("id") Long id, Model model,
+    public String viewMember(@PathVariable("id") Long id, Model model,
         MemberViewDto memberViewDto) {
         Member findMember = memberService.findOne(id);
 
@@ -100,5 +100,11 @@ public class MemberController {
         model.addAttribute("memberView", memberViewDto);
 
         return "/members/updateMemberForm";
+    }
+
+    @PostMapping("/members/{id}/edit")
+    public String UpdateMember(@PathVariable("id") Long id) {
+
+        return "/members";
     }
 }

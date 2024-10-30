@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import jpaproject.jpa.domain.Member;
+import jpaproject.jpa.dto.MemberViewDto;
 import jpaproject.jpa.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -58,8 +59,8 @@ public class MemberService {
     }
 
     @Transactional
-    public void update(Long id, String name) {
+    public void update(Long id, MemberViewDto dto) {
         Member member = memberRepository.findOne(id);
-        member.setName(name);
+//        member.setName(dto.);
     }
 }
