@@ -59,8 +59,30 @@ public class MemberService {
     }
 
     @Transactional
-    public void update(Long id, MemberViewDto dto) {
-        Member member = memberRepository.findOne(id);
-//        member.setName(dto.);
+    public void update(Long memberId, MemberViewDto dto) {
+        Member member = memberRepository.findOne(memberId);
+
+        System.out.println("================================");
+
+        System.out.println("Before Update Address: " + member.getAddress());
+        System.out.println("memberAddress " + member.getAddress().getCity());
+        System.out.println("memberAddress " + member.getAddress().getZipcode());
+        System.out.println("memberAddress " + member.getAddress().getStreet());
+        System.out.println("memberAddress " + dto.getAddress().getCity());
+        System.out.println("memberAddress " + dto.getAddress().getZipcode());
+        System.out.println("memberAddress " + dto.getAddress().getStreet());
+      
+        System.out.println("================================");
+
+        member.updateMember(dto.getName(), dto.getEmail(), dto.getPhone(),
+            dto.getAddress());
+
+        System.out.println("================================");
+        System.out.println("After Update Address: " + member.getAddress());
+        System.out.println("memberAddress " + dto.getAddress().getCity());
+        System.out.println("memberAddress " + dto.getAddress().getZipcode());
+        System.out.println("memberAddress " + dto.getAddress().getStreet());
+        System.out.println("================================");
+
     }
 }

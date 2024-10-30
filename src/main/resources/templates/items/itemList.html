@@ -15,20 +15,24 @@
         <th>타입</th>
 
         <!-- 타입 book     -->
-        <th th:if="${items[0].dtype == 'Book'}">저자</th>
-        <th th:if="${items[0].dtype == 'Book'}">ISBN</th>
+        <th th:if="${!#lists.isEmpty(items) and items[0].dtype == 'Book'}">저자</th>
+        <th th:if="${!#lists.isEmpty(items) and items[0].dtype == 'Book'}">ISBN</th>
 
         <!-- 타입 앨범     -->
-        <th th:if="${items[0].dtype == 'Album'}">아티스트</th>
-        <th th:if="${items[0].dtype == 'Album'}">기타 사항</th>
+        <th th:if="${!#lists.isEmpty(items) and items[0].dtype == 'Album'}">아티스트</th>
+        <th th:if="${!#lists.isEmpty(items) and items[0].dtype == 'Album'}">기타 사항</th>
 
         <!--타입 영화      -->
-        <th th:if="${items[0].dtype == 'Movie'}">감독</th>
-        <th th:if="${items[0].dtype == 'Movie'}">배우</th>
+        <th th:if="${!#lists.isEmpty(items) and items[0].dtype == 'Movie'}">감독</th>
+        <th th:if="${!#lists.isEmpty(items) and items[0].dtype == 'Movie'}">배우</th>
 
       </tr>
       </thead>
       <tbody>
+      <tr th:if="${#lists.isEmpty(items)}">
+        <td class="text-center" colspan="15">등록된 상품이 없습니다</td>
+      </tr>
+
       <tr th:each="item : ${items}">
         <td th:text="${item.id}"></td>
         <td th:text="${item.name}"></td>

@@ -13,11 +13,9 @@ import java.util.List;
 import jpaproject.jpa.domain.Category;
 import jpaproject.jpa.excoption.NotEnoughStockException;
 import lombok.Getter;
-import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")
 public abstract class Item {
@@ -34,6 +32,18 @@ public abstract class Item {
 
     // == 비즈니스 로직 ==//
 
+
+    public void changeName(String name) {
+        this.name = name;
+    }
+
+    public void changePrice(int price) {
+        this.price = price;
+    }
+
+    public void changeStockQuantity(int stockQuantity) {
+        this.stockQuantity = stockQuantity;
+    }
 
     // Dtype을 조회하는 로직
     public String getDtype() {

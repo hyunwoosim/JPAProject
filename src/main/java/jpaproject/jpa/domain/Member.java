@@ -9,12 +9,10 @@ import jakarta.persistence.OneToMany;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
-import lombok.Setter;
 
 
 @Entity
 @Getter
-@Setter
 public class Member {
 
     @OneToMany(mappedBy = "member")
@@ -32,13 +30,14 @@ public class Member {
 
     // == 비즈니스 로직 ==//
 
-    public void createInfo(String name, String email, String phone) {
+    public void createInfo(String name, String email, String phone, Address address) {
         this.name = name;
         this.email = email;
         this.phone = phone;
+        this.commonAddress(address);
     }
 
-    public void createAddressInfo(Address address) {
+    public void commonAddress(Address address) {
         this.address = address;
     }
 
@@ -46,4 +45,11 @@ public class Member {
         this.password = password;
     }
 
+    public void updateMember(String name, String email, String phone, Address address) {
+        this.name = name;
+        this.email = email;
+        this.phone = phone;
+        this.commonAddress(address);
+
+    }
 }

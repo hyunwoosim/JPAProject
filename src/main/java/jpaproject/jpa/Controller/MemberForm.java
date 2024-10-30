@@ -2,6 +2,7 @@ package jpaproject.jpa.Controller;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
+import jpaproject.jpa.domain.Address;
 import jpaproject.jpa.dto.PasswordDTO;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,5 +26,7 @@ public class MemberForm {
     private String city;
     private String street;
     private String zipcode;
+
+    private Address address;
 
 }

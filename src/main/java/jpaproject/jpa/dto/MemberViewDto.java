@@ -15,10 +15,15 @@ public class MemberViewDto {
     private String name;
     private String email;
     private String phone;
+    
     private Address address;
 
-    public void updateMember(Member member) {
-       mem
+    public MemberViewDto() {
 
+    }
+
+
+    public void updateMember(Member member) {
+        member.updateMember(this.name, this.email, this.phone, this.address);
     }
 }

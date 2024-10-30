@@ -71,11 +71,11 @@ public class ItemFactory {
     private Item commonMovie(ItemForm form) {
         Movie movie = new Movie();
 
-        movie.setName(form.getName());
-        movie.setPrice(form.getPrice());
-        movie.setStockQuantity(form.getStockQuantity());
-        movie.setDirector(form.getDirector());
-        movie.setActor(form.getActor());
+        movie.changeName(form.getName());
+        movie.changePrice(form.getPrice());
+        movie.changeStockQuantity(form.getStockQuantity());
+        movie.changeDirector(form.getDirector());
+        movie.changeActor(form.getActor());
 
         return movie;
     }
@@ -83,11 +83,11 @@ public class ItemFactory {
     private Item commonAlbum(ItemForm form) {
         Album album = new Album();
 
-        album.setName(form.getName());
-        album.setPrice(form.getPrice());
-        album.setStockQuantity(form.getStockQuantity());
-        album.setArtist(form.getArtist());
-        album.setEtc(form.getEtc());
+        album.changeName(form.getName());
+        album.changePrice(form.getPrice());
+        album.changeStockQuantity(form.getStockQuantity());
+        album.changeArtist(form.getArtist());
+        album.changeEtc(form.getEtc());
 
         return album;
 
@@ -96,11 +96,11 @@ public class ItemFactory {
 
     private Item commonBook(ItemForm form) {
         Book book = new Book();
-        book.setName(form.getName());
-        book.setPrice(form.getPrice());
-        book.setStockQuantity(form.getStockQuantity());
-        book.setAuthor(form.getAuthor());
-        book.setIsbn(form.getIsbn());
+        book.changeName(form.getName());
+        book.changePrice(form.getPrice());
+        book.changeStockQuantity(form.getStockQuantity());
+        book.changeAuthor(form.getAuthor());
+        book.changeIsbn(form.getIsbn());
         return book;
     }
 }

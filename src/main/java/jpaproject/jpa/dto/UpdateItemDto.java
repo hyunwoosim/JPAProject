@@ -32,27 +32,27 @@ public class UpdateItemDto {
 
 
     public void changeBook(Book book) {
-        book.setName(this.name);
-        book.setPrice(this.price);
-        book.setStockQuantity(this.stockQuantity);
-        book.setAuthor(this.author);
-        book.setIsbn(this.isbn);
+        book.changeName(this.name);
+        book.changePrice(this.price);
+        book.changeStockQuantity(this.stockQuantity);
+        book.changeAuthor(this.author);
+        book.changeIsbn(this.isbn);
     }
 
     public void changeAlbum(Album album) {
-        album.setName(this.name);
-        album.setPrice(this.price);
-        album.setStockQuantity(this.stockQuantity);
-        album.setArtist(this.artist);
-        album.setEtc(this.etc);
+        album.changeName(this.name);
+        album.changePrice(this.price);
+        album.changeStockQuantity(this.stockQuantity);
+        album.changeArtist(this.artist);
+        album.changeEtc(this.etc);
     }
 
     public void changeMovie(Movie movie) {
-        movie.setName(this.name);
-        movie.setPrice(this.price);
-        movie.setStockQuantity(this.stockQuantity);
-        movie.setDirector(this.director);
-        movie.setActor(this.actor);
+        movie.changeName(this.name);
+        movie.changePrice(this.price);
+        movie.changeStockQuantity(this.stockQuantity);
+        movie.changeDirector(this.director);
+        movie.changeActor(this.actor);
     }
 
 }
