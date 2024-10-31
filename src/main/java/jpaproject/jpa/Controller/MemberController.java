@@ -59,11 +59,6 @@ public class MemberController {
 
         Address address = new Address(form.getCity(), form.getStreet(),
             form.getZipcode());
-        System.out.println("===========================================");
-        System.out.println("address.getCity() = " + address.getCity());
-        System.out.println("address.getCity() = " + address.getZipcode());
-        System.out.println("address.getCity() = " + address.getStreet());
-        System.out.println("===========================================");
 
         Member member = new Member();
         member.createInfo(form.getName(), form.getEmail(), form.getPhone(), address);
@@ -116,14 +111,6 @@ public class MemberController {
     @PostMapping("/members/{memberId}/edit")
     public String UpdateMember(@PathVariable Long memberId,
         @ModelAttribute("memberView") MemberDto form) {
-
-        System.out.println("================================");
-        System.out.println("dto.getZipcode() = " + form.getName());
-        System.out.println("dto.getZipcode() = " + form.getEmail());
-        System.out.println("dto.getZipcode() = " + form.getZipcode());
-        System.out.println("dto.getZipcode() = " + form.getStreet());
-        System.out.println("dto.getZipcode() = " + form.getCity());
-        System.out.println("================================");
 
         memberService.update(memberId, form);
 

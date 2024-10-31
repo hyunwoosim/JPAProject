@@ -13,9 +13,11 @@ import java.util.List;
 import jpaproject.jpa.domain.Category;
 import jpaproject.jpa.excoption.NotEnoughStockException;
 import lombok.Getter;
+import lombok.Setter;
 
 @Entity
 @Getter
+@Setter
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")
 public abstract class Item {

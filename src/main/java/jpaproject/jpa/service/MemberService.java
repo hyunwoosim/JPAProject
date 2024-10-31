@@ -58,21 +58,14 @@ public class MemberService {
         return validateResult;
     }
 
+    // 회원 업데이트
     @Transactional
     public void update(Long memberId, MemberDto dto) {
         Member member = memberRepository.findOne(memberId);
 
         member.updateMember(dto.getName(), dto.getEmail(), dto.getPhone(),
             dto.toAddress());
-        System.out.println("================================");
-        System.out.println("dto.getZipcode() = " + dto.getName());
-        System.out.println("dto.getZipcode() = " + dto.getEmail());
-        System.out.println("dto.getZipcode() = " + dto.getZipcode());
-        System.out.println("dto.getZipcode() = " + dto.getStreet());
-        System.out.println("dto.getZipcode() = " + dto.getCity());
-        System.out.println("================================");
 
-        System.out.println("================================");
 
     }
 }
