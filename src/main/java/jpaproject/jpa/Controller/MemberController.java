@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 import jpaproject.jpa.domain.Address;
 import jpaproject.jpa.domain.Member;
-import jpaproject.jpa.dto.MemberCreateDto;
+import jpaproject.jpa.dto.MemberDto;
 import jpaproject.jpa.dto.MemberViewDto;
 import jpaproject.jpa.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,7 @@ public class MemberController {
     }
 
     @PostMapping("/members/new")
-    public String create(@ModelAttribute @Valid MemberCreateDto form, BindingResult result,
+    public String create(@ModelAttribute @Valid MemberDto form, BindingResult result,
         Model model) {
 
         //에러에게 맞게 문구 나가기
@@ -57,7 +57,13 @@ public class MemberController {
             return "members/createMemberForm";
         }
 
-        Address address = new Address(form.getCity(), form.getStreet(), form.getZipcode());
+        Address address = new Address(form.getCity(), form.getStreet(),
+            form.getZipcode());
+        System.out.println("===========================================");
+        System.out.println("address.getCity() = " + address.getCity());
+        System.out.println("address.getCity() = " + address.getZipcode());
+        System.out.println("address.getCity() = " + address.getStreet());
+        System.out.println("===========================================");
 
         Member member = new Member();
         member.createInfo(form.getName(), form.getEmail(), form.getPhone(), address);
@@ -89,27 +95,18 @@ public class MemberController {
 
     @GetMapping("/members/{memberId}/edit")
     public String viewMember(@PathVariable Long memberId, Model model,
-        MemberViewDto memberViewDto) {
+        MemberDto dto) {
         Member findMember = memberService.findOne(memberId);
 
-        memberViewDto.setName(findMember.getName());
-        memberViewDto.setEmail(findMember.getEmail());
-        memberViewDto.setPhone(findMember.getPhone());
-        memberViewDto.setAddress(findMember.getAddress());
-        model.addAttribute("memberView", memberViewDto);
-//        System.out.println("===============================");
-//        System.out.println("form." + findMember.getAddress().getCity());
-//        System.out.println("form." + findMember.getAddress().getStreet());
-//        System.out.println("form." + findMember.getAddress().getZipcode());
-//        System.out.println("===============================");
-//        System.out.println("===============================");
-//        System.out.println("form." + memberViewDto.getAddress().getCity());
-//        System.out.println("form." + memberViewDto.getAddress().getStreet());
-//        System.out.println("form." + memberViewDto.getAddress().getZipcode());
-//        System.out.println("===============================");
+        dto.setName(findMember.getName());
+        dto.setEmail(findMember.getEmail());
+        dto.setPhone(findMember.getPhone());
+        dto.setCity(findMember.getAddress().getCity());
+        dto.setStreet(findMember.getAddress().getStreet());
+        dto.setZipcode(findMember.getAddress().getZipcode());
+        model.addAttribute("memberView", dto);
 
         System.out.println("===============================");
-        System.out.println();
         System.out.println(memberId);
         System.out.println("===============================");
 
@@ -118,37 +115,17 @@ public class MemberController {
 
     @PostMapping("/members/{memberId}/edit")
     public String UpdateMember(@PathVariable Long memberId,
-        @ModelAttribute("memberView") MemberForm form) {
+        @ModelAttribute("memberView") MemberDto form) {
 
-        System.out.println("===============================");
-        System.out.println(memberId);
-        System.out.println("===============================");
+        System.out.println("================================");
+        System.out.println("dto.getZipcode() = " + form.getName());
+        System.out.println("dto.getZipcode() = " + form.getEmail());
+        System.out.println("dto.getZipcode() = " + form.getZipcode());
+        System.out.println("dto.getZipcode() = " + form.getStreet());
+        System.out.println("dto.getZipcode() = " + form.getCity());
+        System.out.println("================================");
 
-        MemberViewDto dto = new MemberViewDto();
-        dto.setName(form.getName());
-        dto.setEmail(form.getEmail());
-        dto.setPhone(form.getPhone());
-
-        Address address = new Address(form.getAddress().getCity(), form.getAddress().getStreet(),
-            form.getAddress().getZipcode());
-        dto.setAddress(address);
-
-        System.out.println("===============================");
-        System.out.println("@@@Controller@@@@");
-        System.out.println("===============================");
-        System.out.println("name" + form.getName());
-        System.out.println("email" + form.getEmail());
-        System.out.println("form." + form.getAddress().getCity());
-        System.out.println("form." + form.getAddress().getZipcode());
-        System.out.println("form." + form.getAddress().getStreet());
-        System.out.println("===============================");
-        System.out.println("dto.getName() = " + dto.getName());
-        System.out.println("dto.getAddress() = " + dto.getAddress().getCity());
-        System.out.println("dto.getAddress() = " + dto.getAddress().getStreet());
-        System.out.println("dto.getAddress() = " + dto.getAddress().getZipcode());
-        System.out.println("===============================");
-
-        memberService.update(memberId, dto);
+        memberService.update(memberId, form);
 
         return "redirect:/members";
     }

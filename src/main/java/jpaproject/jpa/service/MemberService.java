@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import jpaproject.jpa.domain.Member;
-import jpaproject.jpa.dto.MemberViewDto;
+import jpaproject.jpa.dto.MemberDto;
 import jpaproject.jpa.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -59,29 +59,19 @@ public class MemberService {
     }
 
     @Transactional
-    public void update(Long memberId, MemberViewDto dto) {
+    public void update(Long memberId, MemberDto dto) {
         Member member = memberRepository.findOne(memberId);
 
-        System.out.println("================================");
-
-        System.out.println("Before Update Address: " + member.getAddress());
-        System.out.println("memberAddress " + member.getAddress().getCity());
-        System.out.println("memberAddress " + member.getAddress().getZipcode());
-        System.out.println("memberAddress " + member.getAddress().getStreet());
-        System.out.println("memberAddress " + dto.getAddress().getCity());
-        System.out.println("memberAddress " + dto.getAddress().getZipcode());
-        System.out.println("memberAddress " + dto.getAddress().getStreet());
-      
-        System.out.println("================================");
-
         member.updateMember(dto.getName(), dto.getEmail(), dto.getPhone(),
-            dto.getAddress());
-
+            dto.toAddress());
         System.out.println("================================");
-        System.out.println("After Update Address: " + member.getAddress());
-        System.out.println("memberAddress " + dto.getAddress().getCity());
-        System.out.println("memberAddress " + dto.getAddress().getZipcode());
-        System.out.println("memberAddress " + dto.getAddress().getStreet());
+        System.out.println("dto.getZipcode() = " + dto.getName());
+        System.out.println("dto.getZipcode() = " + dto.getEmail());
+        System.out.println("dto.getZipcode() = " + dto.getZipcode());
+        System.out.println("dto.getZipcode() = " + dto.getStreet());
+        System.out.println("dto.getZipcode() = " + dto.getCity());
+        System.out.println("================================");
+
         System.out.println("================================");
 
     }

@@ -191,3 +191,21 @@ validatorResult = 비밀번호는 필수입니다.
    Item 엔티티에 비즈니스 로직으로 changeName, changePrice등등을 추가하여 리펙토링을 하였다.
 2. 그러던 중 아이템 리스트.html에도 문제가 발생했다. 상품이 없을때도 페이지가 출력되어야하는데 그것을 빼먹은 것이다. 바로 수정하여 완성
 
+# 10.31
+
+1. update에서 막혔는데 address의 기본 생성자가 producted이기 때문에 외부에서 초기화가 불가능 하였다.
+2. 그래서 dto에 address를 만들어도 null값으로 넘어가는 오류가 발생하였다.
+3. 그래서 createMemberDto와 updateMemberDto의 필드가 city,zipcode,street을 공통으로 사용해서 하나의 MemberDto로 합치고
+
+```
+public Address toAddress() {
+        return new Address(city, street, zipcode);
+    }
+
+public void updateMember(Member member) {
+        member.updateMember(this.name, this.email, this.phone, toAddress());
+    }
+```
+
+4. city,zipcode,street을 address로 합치는 메서드와 updateMember를 하는 메서드를 만들어서 해결하였다.
+5. MemberView는 address필드가 있는데 이유는 stream돌려서 정보를 가져오기때문이다.

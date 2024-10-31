@@ -1,5 +1,6 @@
 package jpaproject.jpa.dto;
 
+import jakarta.validation.Valid;
 import jpaproject.jpa.domain.Address;
 import jpaproject.jpa.domain.Member;
 import lombok.AllArgsConstructor;
@@ -15,11 +16,11 @@ public class MemberViewDto {
     private String name;
     private String email;
     private String phone;
-    
+
+    @Valid
     private Address address;
 
     public MemberViewDto() {
-
     }
 
 
