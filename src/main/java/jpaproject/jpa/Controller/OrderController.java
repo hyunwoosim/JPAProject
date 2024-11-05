@@ -50,7 +50,12 @@ public class OrderController {
     @GetMapping("/orders")
     public String orderList(@ModelAttribute("orderSearch") OrderSearch orderSearch, Model model) {
         List<Order> orders = orderService.findOrders(orderSearch);
+        List<Order> allOrders = orderService.findAllOrders();
         model.addAttribute("orders", orders);
+        model.addAttribute("allOrders", allOrders);
+        System.out.println("===========");
+        System.out.println("@@@Controller@@@");
+        System.out.println("===========");
 
         return "order/orderList";
     }

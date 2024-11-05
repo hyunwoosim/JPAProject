@@ -25,8 +25,19 @@ public class OrderRepository {
         em.persist(order);
     }
 
+
     public Order findOne(Long id) {
         return em.find(Order.class, id);
+    }
+
+    public List<Order> findAll() {
+        System.out.println("===========");
+        System.out.println("@@@Repository@@@");
+        System.out.println("===========");
+        return em.createQuery("select o from Order o"
+                + " join fetch o.member m"
+                + " join fetch o.orderItems oi", Order.class)
+            .getResultList();
     }
 
     public List<Order> findAllByString(OrderSearch orderSearch) {

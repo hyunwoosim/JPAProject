@@ -7,7 +7,7 @@
   <div>
 
     <div>
-      <form class="form-inline" th:object="${orderSearch}">
+      <form action="/orders" class="form-inline" method="get" th:object="${orderSearch}">
 
         <div class="form-group mb-2">
           <input class="form-control" placeholder="회원명" th:field="*{memberName}" type="text"/>
@@ -28,43 +28,55 @@
 
     </div>
 
+
     <table class="table table-striped">
       <thead>
       <tr>
         <th>#</th>
         <th>회원명</th>
-        <th>대표상품 이름</th>
-        <th>대표상품 주문가격</th>
-        <th>대표상품 주문수량</th>
+        <th>상품 이름</th>
+        <th>상품 분류</th>
+        <th>주문 가격</th>
+        <th>주문 수량</th>
         <th>상태</th>
         <th>일시</th>
         <th></th>
       </tr>
       </thead>
-
       <tbody>
-      <tr th:each="item : ${orders}">
-        <td th:text="${item.id}"></td>
-        <td th:text="${item.member.name}"></td>
-        <td th:text="${item.orderItems[0].item.name}"></td>
-        <td th:text="${item.orderItems[0].orderPrice}"></td>
-        <td th:text="${item.orderItems[0].count}"></td>
-        <td th:text="${item.status}"></td>
-        <td th:text="${item.orderDate}"></td>
+      <tr th:each="order : ${allOrders}">
         <td>
-          <a class="btn btn-danger" href="#"
-             th:href="'javascript:cancel('+${item.id}+')'"
-             th:if="${item.status.name() == 'ORDER'}">CANCEL</a>
+          <table>
+            <tbody>
+            <tr th:each="orderItem : ${order.orderItems}">
+              <td th:text="${order.id}"></td> <!-- 주문 번호 -->
+              <td th:text="${order.member.name}"></td> <!-- 사용자 이름 -->
+              <td th:text="${orderItem.item.name}"></td> <!-- 상품 이름 -->
+              <td th:text="${orderItem.item.dtype}"></td> <!-- 상품 분류 -->
+              <td th:text="${orderItem.orderPrice}"></td> <!-- 주문 가격 -->
+              <td th:text="${orderItem.count}"></td> <!-- 주문 수량 -->
+              <td th:text="${order.status}"></td> <!-- 상태 -->
+              <td th:text="${order.orderDate}"></td> <!-- 일시 -->
+              <td>
+                <a class="btn btn-danger" href="#"
+                   th:href="'javascript:cancel('+${order.id}+')'"
+                   th:if="${order.status.name() == 'ORDER'}">CANCEL</a>
+              </td>
+            </tr>
+            </tbody>
+          </table>
         </td>
       </tr>
       </tbody>
     </table>
+
 
   </div>
 
   <div th:replace="fragments/footer :: footer"/>
 </div> <!-- /container -->
 </body>
+
 <script>
   function cancel(id) {
   var form = document.createElement("form");

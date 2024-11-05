@@ -67,4 +67,13 @@ public class OrderService {
     public List<Order> findOrders(OrderSearch orderSearch) {
         return orderRepository.findAllByString(orderSearch);
     }
+
+
+    public List<Order> findAllOrders() {
+        System.out.println("===========");
+        System.out.println("@@@Service@@@");
+        System.out.println("===========");
+        return orderRepository.findAll();
+
+    }
 }
