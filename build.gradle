@@ -38,6 +38,9 @@ dependencies {
     // 스프링 시큐리티
     implementation "org.springframework.boot:spring-boot-starter-security"
 
+    // 하이버네이트5 모듈
+    implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5-jakarta'
+
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'com.h2database:h2'
