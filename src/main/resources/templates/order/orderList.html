@@ -67,10 +67,16 @@
               <td th:text="${item.status}"></td> <!-- 상태 -->
               <td th:text="${item.orderDate}"></td> <!-- 일시 -->
               <!--              주문 개별 취소-->
+              <!--              <td>-->
+              <!--                <a class="btn btn-danger" href="#"-->
+              <!--                   th:href="'javascript:cancelOrderItem('+${orderItem.id}+')'"-->
+              <!--                   th:if="${item.status.name() == 'ORDER'}">CANCEL</a>-->
+              <!--              </td>-->
               <td>
                 <a class="btn btn-danger" href="#"
+                   id="cancelBtn-${orderItem.id}"
                    th:href="'javascript:cancelOrderItem('+${orderItem.id}+')'"
-                   th:if="${item.status.name() == 'ORDER'}">CANCEL</a>
+                   th:text="CANCEL">CANCEL</a>
               </td>
             </tr>
             </tbody>
@@ -107,6 +113,26 @@
     form.submit();
   }
 </script>
+<script>
+  function cancelOrderItem(orderItemId) {
+     // 버튼 숨기기
+     var button = document.getElementById("cancelBtn-" + orderItemId);
+     if (button) {
+         button.style.display = 'none';  // 클릭한 버튼 숨기기
+     }
+
+     // 폼을 생성하고 서버로 취소 요청
+     var form = document.createElement("form");
+     form.setAttribute("method", "post");
+     form.setAttribute("action", "/orders/" + orderItemId + "/cancelOrderItem");
+     document.body.appendChild(form);
+     form.submit();
+ }
+
+
+</script>
+
+
 </html>
 
 
