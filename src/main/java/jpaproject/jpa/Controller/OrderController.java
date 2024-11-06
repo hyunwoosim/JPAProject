@@ -53,16 +53,21 @@ public class OrderController {
         List<Order> allOrders = orderService.findAllOrders();
         model.addAttribute("orders", orders);
         model.addAttribute("allOrders", allOrders);
-        System.out.println("===========");
-        System.out.println("@@@Controller@@@");
-        System.out.println("===========");
 
         return "order/orderList";
     }
 
+    // 전체 취소
     @PostMapping("/orders/{orderId}/cancel")
     public String cancelOrder(@PathVariable("orderId") Long orderId) {
         orderService.cancelOrder(orderId);
+        return "redirect:/orders";
+    }
+
+    //개별 취소
+    @PostMapping("/orders/{orderItemId}/cancelOrderItem")
+    public String cancelOrderItem(@PathVariable("orderItemId") Long orderItemId) {
+        orderService.cancelOrderItem(orderItemId);
         return "redirect:/orders";
     }
 }

@@ -7,7 +7,7 @@
   <div>
 
     <div>
-      <form action="/orders" class="form-inline" method="get" th:object="${orderSearch}">
+      <form class="form-inline" th:object="${orderSearch}">
 
         <div class="form-group mb-2">
           <input class="form-control" placeholder="회원명" th:field="*{memberName}" type="text"/>
@@ -28,7 +28,6 @@
 
     </div>
 
-
     <table class="table table-striped">
       <thead>
       <tr>
@@ -44,23 +43,34 @@
       </tr>
       </thead>
       <tbody>
-      <tr th:each="order : ${allOrders}">
+      <!-- item: ${orders} -> 주문 ID와 회원명 출력 -->
+      <tr th:each="item : ${orders}">
+        <td th:text="${item.id}"></td> <!-- 주문 번호 -->
+        <td th:text="${item.member.name}"></td> <!-- 사용자 이름 -->
+        <!--        주문 전체 취소-->
         <td>
-          <table>
+          <a class="btn btn-danger" href="#" th:href="'javascript:cancel('+${item.id}+')'"
+             th:if="${item.status.name() == 'ORDER'}">CANCEL</a>
+        </td>
+
+        <!-- 상품 항목 출력은 아래에서 추가 -->
+        <td colspan="7">
+          <table class="table">
             <tbody>
-            <tr th:each="orderItem : ${order.orderItems}">
-              <td th:text="${order.id}"></td> <!-- 주문 번호 -->
-              <td th:text="${order.member.name}"></td> <!-- 사용자 이름 -->
+            <!-- allOrders -> 각 주문 항목에 대한 정보 출력 -->
+            <tr th:each="orderItem : ${item.orderItems}">
+              <td th:text="${orderItem.id}" type="hidden"></td>
               <td th:text="${orderItem.item.name}"></td> <!-- 상품 이름 -->
               <td th:text="${orderItem.item.dtype}"></td> <!-- 상품 분류 -->
               <td th:text="${orderItem.orderPrice}"></td> <!-- 주문 가격 -->
               <td th:text="${orderItem.count}"></td> <!-- 주문 수량 -->
-              <td th:text="${order.status}"></td> <!-- 상태 -->
-              <td th:text="${order.orderDate}"></td> <!-- 일시 -->
+              <td th:text="${item.status}"></td> <!-- 상태 -->
+              <td th:text="${item.orderDate}"></td> <!-- 일시 -->
+              <!--              주문 개별 취소-->
               <td>
                 <a class="btn btn-danger" href="#"
-                   th:href="'javascript:cancel('+${order.id}+')'"
-                   th:if="${order.status.name() == 'ORDER'}">CANCEL</a>
+                   th:href="'javascript:cancelOrderItem('+${orderItem.id}+')'"
+                   th:if="${item.status.name() == 'ORDER'}">CANCEL</a>
               </td>
             </tr>
             </tbody>
@@ -69,8 +79,6 @@
       </tr>
       </tbody>
     </table>
-
-
   </div>
 
   <div th:replace="fragments/footer :: footer"/>
@@ -78,12 +86,25 @@
 </body>
 
 <script>
-  function cancel(id) {
-  var form = document.createElement("form");
-  form.setAttribute("method", "post");
-  form.setAttribute("action", "/orders/" + id + "/cancel");
-  document.body.appendChild(form);
-  form.submit();
+
+  // 전체 주문 취소
+  function cancel(orderId) {
+    var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", "/orders/" + orderId + "/cancel");
+    document.body.appendChild(form);
+    form.submit();
+  }
+</script>
+
+<script>
+  // 개별 주문 항목 취소
+  function cancelOrderItem(orderItemId) {
+    var form = document.createElement("form");
+    form.setAttribute("method", "post");
+    form.setAttribute("action", "/orders/" + orderItemId + "/cancelOrderItem");
+    document.body.appendChild(form);
+    form.submit();
   }
 </script>
 </html>

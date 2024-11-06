@@ -52,7 +52,7 @@ public class OrderService {
     }
 
     /**
-     * 취소
+     * 전체 취소
      */
     @Transactional
     public void cancelOrder(Long orderId) {
@@ -63,6 +63,19 @@ public class OrderService {
 
     }
 
+    /**
+     * 개별 취소
+     */
+    @Transactional
+    public void cancelOrderItem(Long orderItemId) {
+        OrderItem oneOrderItem = orderRepository.findOneOrderItem(orderItemId);
+        System.out.println("============================");
+        System.out.println("@@@Orderservice@@@@");
+        System.out.println("oneOrderItem.getId() = " + oneOrderItem.getId());
+        System.out.println("============================");
+        oneOrderItem.cancel();
+    }
+
     // 검색
     public List<Order> findOrders(OrderSearch orderSearch) {
         return orderRepository.findAllByString(orderSearch);
@@ -70,9 +83,6 @@ public class OrderService {
 
 
     public List<Order> findAllOrders() {
-        System.out.println("===========");
-        System.out.println("@@@Service@@@");
-        System.out.println("===========");
         return orderRepository.findAll();
 
     }

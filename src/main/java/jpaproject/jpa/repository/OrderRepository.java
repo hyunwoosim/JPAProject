@@ -11,6 +11,7 @@ import jakarta.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import jpaproject.jpa.domain.Order;
+import jpaproject.jpa.domain.OrderItem;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -28,6 +29,10 @@ public class OrderRepository {
 
     public Order findOne(Long id) {
         return em.find(Order.class, id);
+    }
+
+    public OrderItem findOneOrderItem(Long id) {
+        return em.find(OrderItem.class, id);
     }
 
     public List<Order> findAll() {
