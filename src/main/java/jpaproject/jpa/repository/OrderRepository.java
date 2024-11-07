@@ -40,8 +40,8 @@ public class OrderRepository {
         System.out.println("@@@Repository@@@");
         System.out.println("===========");
         return em.createQuery("select o from Order o"
-                + " join fetch o.member m"
-                + " join fetch o.orderItems oi", Order.class)
+                                  + " join fetch o.member m"
+                                  + " join fetch o.orderItems oi", Order.class)
             .getResultList();
     }
 
@@ -97,7 +97,7 @@ public class OrderRepository {
         //주문 상태 검색
         if (orderSearch.getOrderStatus() != null) {
             Predicate status = cb.equal(o.get("status"),
-                orderSearch.getOrderStatus());
+                                        orderSearch.getOrderStatus());
             criteria.add(status);
         }
         //회원 이름 검색
@@ -110,6 +110,15 @@ public class OrderRepository {
         cq.where(cb.and(criteria.toArray(new Predicate[criteria.size()])));
         TypedQuery<Order> query = em.createQuery(cq).setMaxResults(1000); //최대 1000건
         return query.getResultList();
+    }
+
+
+    public List<Order> findAllWithMemberDelivery() {
+        return em.createQuery(
+                "select o from Order o" +
+                    " join fetch o.member m" +
+                    " join fetch o.delivery d", Order.class)
+            .getResultList();
     }
 
 
