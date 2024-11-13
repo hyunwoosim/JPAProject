@@ -44,7 +44,7 @@ public class MemberService {
 
     // 회원 한명 조회
     public Member findOne(Long memberId) {
-        return memberRepository.findOne(memberId);
+        return memberRepository.findById(memberId).get();
     }
 
     // 회원 가입 시 유효성 검사
@@ -61,10 +61,10 @@ public class MemberService {
     // 회원 업데이트
     @Transactional
     public void update(Long memberId, MemberDto dto) {
-        Member member = memberRepository.findOne(memberId);
+        Member member = memberRepository.findById(memberId).get();
 
         member.updateMember(dto.getName(), dto.getEmail(), dto.getPhone(),
-            dto.toAddress());
+                            dto.toAddress());
 
 
     }
