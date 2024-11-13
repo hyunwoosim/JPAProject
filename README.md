@@ -209,3 +209,12 @@ public void updateMember(Member member) {
 
 4. city,zipcode,street을 address로 합치는 메서드와 updateMember를 하는 메서드를 만들어서 해결하였다.
 5. MemberView는 address필드가 있는데 이유는 stream돌려서 정보를 가져오기때문이다.
+
+# 11.14
+
+## QueryDSL 사용
+
+- gradle에서 사용중일때 taks에 queryDsl이 안뜸
+- junit 4를 지우니 main에 뜨고있긴한데 더 정확하게 알아봐야함
+
+### @@@@@@@@@@진행중@@@@@@@@@
