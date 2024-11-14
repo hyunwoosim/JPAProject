@@ -217,4 +217,39 @@ public void updateMember(Member member) {
 - gradle에서 사용중일때 taks에 queryDsl이 안뜸
 - junit 4를 지우니 main에 뜨고있긴한데 더 정확하게 알아봐야함
 
-### @@@@@@@@@@진행중@@@@@@@@@
+## QueryDSL spring 3.x 대 Gradle 설정법
+
+```
+//Querydsl 추가
+    implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+    annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+    annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+    
+   def querydslSrcDir = 'src/main/generated'
+   
+   sourceSets {
+    main {
+        java {
+            srcDirs += querydslSrcDir  // generated 디렉터리를 소스 루트에 추가
+        }
+    }
+}
+   
+   clean {
+       delete file(querydslSrcDir)
+   } 
+   tasks.withType(JavaCompile) {
+    options.generatedSourceOutputDirectory = file(querydslSrcDir)
+   }
+
+```
+
+- src/main/generated 디렉터리가 모듈 소스 인식되지 않을땐 sourceSets 을 추가시켜서 모듈 소스로 인식 시켜야한다.
+- clean이 실행 될 때 src/main/generated 디렉터리를 삭제하는 역할을 한다.
+- javaCompile 될 떄 Q파일을 src/main/generated 디렉터리에 생성해주는 역할을 한다.
+
+## compileQueryDsl이 생성되지 않는 이유
+
+- 기본 JavaCompile Task에 QueryDSL의 annotation processing 기능이 포함되어 있기 때문이다.
+- 기본 컴파일 할때 기능이 같이 실행된다.

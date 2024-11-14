@@ -59,7 +59,17 @@ dependencies {
 tasks.named('test') {
     useJUnitPlatform()
 }
+
 def querydslSrcDir = 'src/main/generated'
+
+sourceSets {
+    main {
+        java {
+            srcDirs += querydslSrcDir  // generated 디렉터리를 소스 루트에 추가
+        }
+    }
+}
+
 clean {
     delete file(querydslSrcDir)
 }
